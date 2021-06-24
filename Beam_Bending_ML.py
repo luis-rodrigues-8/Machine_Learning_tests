@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 def ana_sol(x, q):
     y = np.zeros(len(x))
     for i in range(0, len(x) - 1):
-        y[i] = -x[i]**5 + 2*x[i]**4
+        y[i] = -x[i]**5 + 2*x[i]**4   # Will put here the equations for the deflection of the beam 
 
     return y
 
