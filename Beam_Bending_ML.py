@@ -32,11 +32,11 @@ for i in range(len(x_vec)):
     points[i, 0] = x_vec[i]
     points[i, 1] = y_vec[i]
 
-# Create a Pandas Data Frame with the points
+# Create a Pandas Data Frame with the points. Still need to find out if this is necessary in this case.
 df = pd.DataFrame(data=points, columns=['x_vec', 'y_vec'])
 df = df.reindex(np.random.permutation(df.index))  # shuffle the points
 
-# Append x_vec to feature columns. Still need to find out if this is completely necessary.
+# Append x_vec to feature columns. 
 feature_columns = []
 x_col = tf.feature_column.numeric_column("x_vec")
 feature_columns.append(x_col)
@@ -79,8 +79,9 @@ def create_model(my_learning_rate, my_feature_layer):
 
 def train_model(model, dataset, epochs, label_name,
                 batch_size=None):
+    
     # Split the dataset into features and label.
-    # Didn't fully understand this next line yet (copy pasted it). Will try to find out a better way to do it.
+    # Didn't fully understand this next line yet (copy pasted it) and it causes some problems. Will try to find out a better way to do it.
     features = {name: np.array(value) for name, value in dataset.items()}
     label = np.array(features.pop(label_name))
     history = model.fit(x=features, y=label, batch_size=batch_size,
