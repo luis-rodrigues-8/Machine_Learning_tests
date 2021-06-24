@@ -126,7 +126,7 @@ batch_size = 100
 # Specify the label
 label_name = "y_vec"
 
-# Establish the model's topography.
+# Create the model
 my_model = create_model(learning_rate, my_feature_layer)
 
 # Train the model on the x_vec
