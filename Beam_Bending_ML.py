@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 # Define the functions that build and train the model
 
 def create_model(my_learning_rate, my_feature_layer):
-    # Simple tf.keras. Will try out more complex models in the future.
+    # Simple tf.keras.Sequential. Will try out more complex models in the future.
     model = tf.keras.models.Sequential()
 
     # Add the layer containing the feature columns to the model.
@@ -78,12 +78,12 @@ def plot_the_loss_curve(epochs, mae_training):
     plt.show()
 
     
-# Define the analytical solution
+# Define the analytical solution for the bending problem
 
-def ana_sol(x, q):
+def ana_sol(x):
     y = np.zeros(len(x))
     for i in range(0, len(x) - 1):
-        y[i] = -x[i]**5 + 2*x[i]**4   # Will put here the equations for the deflection of the beam 
+        y[i] = -x[i]**5 + 2*x[i]**4   # Will put here the equations for the deflection of the beam. Will also be a function of q, E, I and l.
 
     return y
 
@@ -94,7 +94,7 @@ x_min = -25
 x_max = 25
 n = 1000  # number of points
 x_vec = np.linspace(x_min, x_max, n)
-y_vec = ana_sol(x_vec, 10 ** 8)
+y_vec = ana_sol(x_vec)
 
 # Add noise
 noise_factor = 0.1
