@@ -4,47 +4,6 @@ import tensorflow as tf
 from matplotlib import pyplot as plt
 
 
-# Define the analytical solution
-
-def ana_sol(x, q):
-    y = np.zeros(len(x))
-    for i in range(0, len(x) - 1):
-        y[i] = -x[i]**5 + 2*x[i]**4   # Will put here the equations for the deflection of the beam 
-
-    return y
-
-
-# Create fictional points
-
-x_min = -25
-x_max = 25
-n = 1000  # number of points
-x_vec = np.linspace(x_min, x_max, n)
-y_vec = ana_sol(x_vec, 10 ** 8)
-
-# Add noise
-noise_factor = 0.1
-y_vec = y_vec + noise_factor * (np.random.random(len(y_vec)) - 0.5) * (np.max(y_vec) - np.min(y_vec))
-
-points = np.zeros((len(x_vec), 2))
-
-for i in range(len(x_vec)):
-    points[i, 0] = x_vec[i]
-    points[i, 1] = y_vec[i]
-
-# Create a Pandas Data Frame with the points. Still need to find out if this is necessary in this case.
-df = pd.DataFrame(data=points, columns=['x_vec', 'y_vec'])
-df = df.reindex(np.random.permutation(df.index))  # shuffle the points
-
-# Append x_vec to feature columns. 
-feature_columns = []
-x_col = tf.feature_column.numeric_column("x_vec")
-feature_columns.append(x_col)
-
-# Convert the list of feature columns into a layer
-my_feature_layer = tf.keras.layers.DenseFeatures(feature_columns)
-
-
 # Define the functions that build and train the model
 
 def create_model(my_learning_rate, my_feature_layer):
@@ -118,8 +77,48 @@ def plot_the_loss_curve(epochs, mae_training):
     plt.ylim([bottom_of_y_axis, top_of_y_axis])
     plt.show()
 
+    
+# Define the analytical solution
 
-# Tune the hyperparameters.
+def ana_sol(x, q):
+    y = np.zeros(len(x))
+    for i in range(0, len(x) - 1):
+        y[i] = -x[i]**5 + 2*x[i]**4   # Will put here the equations for the deflection of the beam 
+
+    return y
+
+
+# Create fictional points
+
+x_min = -25
+x_max = 25
+n = 1000  # number of points
+x_vec = np.linspace(x_min, x_max, n)
+y_vec = ana_sol(x_vec, 10 ** 8)
+
+# Add noise
+noise_factor = 0.1
+y_vec = y_vec + noise_factor * (np.random.random(len(y_vec)) - 0.5) * (np.max(y_vec) - np.min(y_vec))
+
+points = np.zeros((len(x_vec), 2))
+
+for i in range(len(x_vec)):
+    points[i, 0] = x_vec[i]
+    points[i, 1] = y_vec[i]
+
+# Create a Pandas Data Frame with the points. Still need to find out if this is necessary in this case.
+df = pd.DataFrame(data=points, columns=['x_vec', 'y_vec'])
+df = df.reindex(np.random.permutation(df.index))  # shuffle the points
+
+# Append x_vec to feature columns. 
+feature_columns = []
+x_col = tf.feature_column.numeric_column("x_vec")
+feature_columns.append(x_col)
+
+# Convert the list of feature columns into a layer
+my_feature_layer = tf.keras.layers.DenseFeatures(feature_columns)
+
+# Tune the hyperparameters of the model
 learning_rate = 0.2
 epochs = 300
 batch_size = 100
