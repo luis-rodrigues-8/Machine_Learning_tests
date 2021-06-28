@@ -27,6 +27,7 @@ def plot_the_loss_curve(epochs, mae_training):
     plt.ylim([bottom_of_y_axis, top_of_y_axis])
     plt.show()
 
+# Define the functions that will train and build the model
 
 def train_model(model, dataset, epochs, label_name,
                 batch_size=None):
@@ -126,13 +127,10 @@ learning_rate = 0.01
 epochs = 80
 batch_size = int(n/2)
 
-# Specify the label
 label_name = "y_vec"
 
-# Establish the model's topography.
 my_model = create_model(learning_rate, my_feature_layer)
 
-# Train the model on the x_vec
 epochs, mse = train_model(my_model, df, epochs,
                           label_name, batch_size)
 plot_the_loss_curve(epochs, mse)
@@ -151,7 +149,10 @@ plt.show()
 
 # It now gives a warning because the 'dict' has two inputs, but I can't seem to make it work right yet.
 
-# We will now estimate the Young's modulus of the beam using the ML model
+
+# We will now estimate the Young's modulus of the beam using the ML model.
+# This is done by calculating the average of estimated Es for each point (x_vec[i], y_sol[i]).
+# We consider that the load q and the moment of inercia I are known.
 
 sum_E = 0
 for i in range(n):
