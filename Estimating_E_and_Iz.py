@@ -3,7 +3,7 @@ import pandas as pd
 import tensorflow as tf
 from matplotlib import pyplot as plt
 
-# Define the plotting function for the loss curves
+# Define the plotting function for the loss curve
 
 
 def plot_the_loss_curve(epochs, mae_training):
@@ -48,7 +48,7 @@ def train_model(model, dataset, epochs, label_name,
 
 
 def create_model(my_learning_rate, my_feature_layer):
-    # Simple tf.keras. Will try out more complex models in the future.
+    # Simple tf.keras.Sequential
     model = tf.keras.models.Sequential()
 
     # Add the layer containing the feature columns to the model.
@@ -90,7 +90,7 @@ def ana_sol(x, q, l, E, I):
 
 x_min = 0
 x_max = 1
-n = 5000  # number of points
+n = 1000  # number of points
 x_vec = np.linspace(x_min, x_max, n)
 
 l = x_max - x_min
@@ -100,7 +100,7 @@ I = 2 * 10**(-5)
 y_vec = ana_sol(x_vec, q, l, E, I) * 10**3  # [mm]
 
 # Add noise
-noise_factor = 0.05
+noise_factor = 0.1
 y_vec = y_vec + noise_factor * (np.random.random(len(y_vec)) - 0.5) * (np.max(y_vec) - np.min(y_vec))
 
 points = np.zeros((len(x_vec), 2))
@@ -150,9 +150,9 @@ plt.show()
 # It now gives a warning because the 'dict' has two inputs, but I can't seem to make it work right yet.
 
 
-# We will now estimate the Young's modulus of the beam using the ML model.
+# We will now estimate the Young's (E) modulus of the beam using the ML model.
 # This is done by calculating the average of estimated Es for each point (x_vec[i], y_sol[i]).
-# We consider that the load q and the moment of inercia I are known.
+# We assume that the length of the beam (l), the load (q) and the moment of inercia (I) are known.
 
 sum_E = 0
 for i in range(n):
@@ -164,7 +164,7 @@ print("True E: ", E)
 print("Relative error: ", abs(avg_E - E)/E)
 print('\n')
 
-# Now the same for the moment of inertia, considering E known.
+# Now the same for the moment of inertia, considering E is known.
 
 sum_I = 0
 for i in range(n):
