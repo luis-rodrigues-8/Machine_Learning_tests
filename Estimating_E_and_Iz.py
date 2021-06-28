@@ -162,3 +162,15 @@ avg_E = sum_E/n
 print("Estimated E: ", avg_E)
 print("True E: ", E)
 print("Relative error: ", abs(avg_E - E)/E)
+print('\n')
+
+# Now the same for the moment of inertia, considering E known.
+
+sum_I = 0
+for i in range(n):
+    sum_I = sum_I + (((q * l) / 12) * x_vec[i] ** 3 - (q / 24) * x_vec[i] ** 4 - (q * l**3 * x_vec[i]) / 24) / (y_sol[i] * 10**(-3) * E)
+
+avg_I = sum_I/n
+print("Estimated Iz: ", avg_I)
+print("True Iz: ", I)
+print("Relative error: ", abs(avg_I - I)/I)
