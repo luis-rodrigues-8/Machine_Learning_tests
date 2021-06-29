@@ -110,6 +110,8 @@ for i in range(len(x_vec)):
 df = pd.DataFrame(data=points, columns=['x_vec', 'y_vec'])
 df = df.reindex(np.random.permutation(df.index))  # shuffle the points
 
+
+
 # Append x_vec to feature columns. 
 feature_columns = []
 x_col = tf.feature_column.numeric_column("x_vec")
